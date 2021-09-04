@@ -1,6 +1,7 @@
 import HomeContainer from 'src/containers/HomeContainer';
 import ApplyMainContainer from 'src/containers/apply/ApplyMainContainer';
 import LoginComponent from 'src/components/auth/LoginComponent';
+import ApplyConfirmContainer from 'src/containers/apply/ApplyConfirmContainer';
 
 export const SoptRecruitingRouter = [
   { path: '/', component: HomeContainer },
@@ -14,5 +15,10 @@ export const SoptRecruitingRouter = [
     path: '/recruiting/apply/yb',
     component: ApplyMainContainer,
     extraProps: { type: 'yb' },
+  },
+  {
+    path: '/recruiting/apply/confirm',
+    component: ApplyConfirmContainer,
+    // extraProps: { type: 'yb' },
   },
 ];

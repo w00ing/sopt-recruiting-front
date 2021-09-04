@@ -18,6 +18,14 @@ import SpinnerComponent from '../shared/SpinnerComponent';
 import dayjs from 'dayjs';
 import { CURRENT_SEASON } from 'src/constants/season';
 
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+const isBetween = require('dayjs/plugin/isBetween');
+
+dayjs.extend(isBetween);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const ApplyFormComponent = ({ type }) => {
   const group = type.toUpperCase();
 
@@ -56,11 +64,24 @@ const ApplyFormComponent = ({ type }) => {
 
   const [applying, setApplying] = useState(false);
 
+  const startDateString = group === 'YB' ? '2021-09-05 12:00' : '2021-08-23 11:00';
+  const endDateString = group === 'YB' ? '2021-09-11 12:00' : '2021-08-26 18:00';
+
   useEffect(() => {
     load();
   }, [group]);
 
   const load = async () => {
+    if (
+      !dayjs()
+        .tz('Asia/Seoul')
+        .isBetween(dayjs.tz(startDateString, 'Asia/Seoul'), dayjs.tz(endDateString, 'Asia/Seoul'))
+    ) {
+      // console.log('//////');
+      alert(`지금은 ${group} 지원 기간이 아닙니다.`);
+      window.location.href = 'http://sopt.org/wp/';
+      return;
+    }
     const res = await RecruitingQuestionAPI.recruitingQuestionListGET(CURRENT_SEASON, group);
     if (!res.err) {
       setCommonQuestions(res.commonQuestions);
@@ -136,7 +157,7 @@ const ApplyFormComponent = ({ type }) => {
       return false;
     }
     if (!canAttendSeminars) {
-      alert('참석 가능 여부를 체크해주세요.');
+      alert('세미나 참석 가능 여부를 체크해주세요.');
       return false;
     }
     if (!agreedToTermsAndConditions) {
@@ -148,6 +169,16 @@ const ApplyFormComponent = ({ type }) => {
 
   // console.log(selectedQuestionTypeId);
   const handleApply = async () => {
+    if (
+      !dayjs()
+        .tz('Asia/Seoul')
+        .isBetween(dayjs.tz(startDateString, 'Asia/Seoul'), dayjs.tz(endDateString, 'Asia/Seoul'))
+    ) {
+      // console.log('//////');
+      alert(`지금은 ${group} 지원 기간이 아닙니다.`);
+      window.location.href = 'http://sopt.org/wp/';
+      return;
+    }
     const isFormValid = validateForm();
     if (!isFormValid) return;
     setApplying(true);
@@ -342,7 +373,13 @@ const ApplyFormComponent = ({ type }) => {
                   </div>
                 )}
 
-                <input id="file" type="file" className="hidden" onChange={handleImageUpload} />
+                <input
+                  id="file"
+                  type="file"
+                  accept="image/png, image/gif, image/jpeg"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
               </label>
               <p className="px-4 ml-4 lowercase text-center text-lg text-gray-400 group-hover:text-primary-dark pt-4 tracking-wider lg:hidden">
                 ※&nbsp;&nbsp;사진은 면접 참고용으로만 이용됩니다.

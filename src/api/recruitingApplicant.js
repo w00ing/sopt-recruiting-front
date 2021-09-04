@@ -6,6 +6,11 @@ class RecruitingApplicantAPI {
     return privateAPI.get(url, { recruitingApplicantId });
   }
 
+  static recruitingApplicantApplyConfirmGET(season, group, name, phone) {
+    const url = '/recruiting-applicant/apply-confirm';
+    return publicAPI.get(url, { season, group, name, phone });
+  }
+
   static recruitingApplicantListGET(season, group, offset, limit) {
     const url = '/recruiting-applicant/list';
     return privateAPI.get(url, { season, group, offset, limit });
