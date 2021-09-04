@@ -33,17 +33,16 @@ import queryString from 'query-string';
 import TextareaAutosize from 'react-textarea-autosize';
 import RecruitingQuestionAPI from 'src/api/recruitingQuestion';
 import LoadingComponent from 'src/components/shared/LoadingComponent';
+import { CURRENT_SEASON } from 'src/constants/season';
 
 const AdminQuestionsMainContainer = ({ type }) => {
-  const SEASON = 29;
-
   const [loading, setLoading] = useState(true);
 
   const { search } = useLocation();
 
   const group = type.toUpperCase();
 
-  const [commonQuestions, setCommonQuestions] = useState([]);
+  const [commonQuestions, setCommonQuestions] = useState({});
   const [partQuestions, setPartQuestions] = useState([]);
   const [questionTypes, setQuestionTypes] = useState([]);
   const [showCommonQuestions, setShowCommonQuestions] = useState(true);
@@ -53,8 +52,8 @@ const AdminQuestionsMainContainer = ({ type }) => {
   }, [group]);
 
   const load = async () => {
-    setLoading(true);
-    const res = await RecruitingQuestionAPI.recruitingQuestionListGET(SEASON, group);
+    // setLoading(true);
+    const res = await RecruitingQuestionAPI.recruitingQuestionListGET(CURRENT_SEASON, group);
     if (!res.err) {
       setCommonQuestions(res.commonQuestions);
       setPartQuestions(res.partQuestions);
@@ -67,7 +66,10 @@ const AdminQuestionsMainContainer = ({ type }) => {
     const res = await RecruitingQuestionAPI.recruitingQuestionPOST(season, group, recruitingQuestionTypeId, order);
     if (!res.err) {
       if (part === '공통') {
-        setCommonQuestions((prev) => ({ part: '공통', questions: [...prev.questions, res.question] }));
+        setCommonQuestions((prev) => ({
+          part: '공통',
+          questions: [...prev.questions, res.question],
+        }));
       } else {
         setPartQuestions((prev) =>
           prev.map((o) => (o.part === part ? { part: o.part, questions: [...o.questions, res.question] } : o)),
@@ -85,7 +87,10 @@ const AdminQuestionsMainContainer = ({ type }) => {
       setPartQuestions((prev) =>
         prev.map((p) =>
           p.part === part
-            ? { part: p.part, questions: p.questions.map((o) => (o.id === questionId ? { ...o, question: value } : o)) }
+            ? {
+                part: p.part,
+                questions: p.questions.map((o) => (o.id === questionId ? { ...o, question: value } : o)),
+              }
             : p,
         ),
       );
@@ -123,7 +128,12 @@ const AdminQuestionsMainContainer = ({ type }) => {
       } else {
         setPartQuestions((prev) =>
           prev.map((p) =>
-            p.part === part ? { part: p.part, questions: p.questions.filter((o) => o.id !== recruitingQuestionId) } : p,
+            p.part === part
+              ? {
+                  part: p.part,
+                  questions: p.questions.filter((o) => o.id !== recruitingQuestionId),
+                }
+              : p,
           ),
         );
       }
@@ -134,11 +144,13 @@ const AdminQuestionsMainContainer = ({ type }) => {
     const res = await RecruitingQuestionAPI.recruitingQuestionPUT(recruitingQuestionId, question, charLimit);
   };
 
-  console.log(_.find(partQuestions, (o) => o.part === '웹'));
-  if (loading) return <LoadingComponent />;
+  // console.log(_.find(partQuestions, (o) => o.part === '웹'));
+  if (loading) return <Loader />;
 
   const questionsComponent = (part, questions) => {
-    const recruitingTypeId = _.find(questionTypes, (o) => o.typeKr === part).id;
+    // console.log(questionTypes);
+    const recruitingTypeId = _.find(questionTypes, (o) => o.typeKr === part)?.id;
+    // console.log(recruitingTypeId);
     return (
       <div>
         <Form>
@@ -176,7 +188,7 @@ const AdminQuestionsMainContainer = ({ type }) => {
             onClick={() =>
               handleAddQuestion(
                 part,
-                SEASON,
+                CURRENT_SEASON,
                 group,
                 recruitingTypeId,
                 _.find(partQuestions, (o) => o.part === part).questions.length + 1,
@@ -189,34 +201,45 @@ const AdminQuestionsMainContainer = ({ type }) => {
     );
   };
 
-  const panes = partQuestions.map((o) => ({
+  const panes = partQuestions?.map((o) => ({
     menuItem: o.part,
     render: () => <Tab.Pane>{questionsComponent(o.part, o.questions)}</Tab.Pane>,
   }));
-
+  console.log(panes);
   return (
-    <div className="mx-8 my-8">
+    <div className="mx-6 my-8">
       <div className="text-4xl my-8">
-        {SEASON}기 {group} 질문 리스트
+        {CURRENT_SEASON}기 {group} 질문 리스트
       </div>
-      <Container as={Segment}>
-        <div className="flex flex-row items-center mb-6">
-          <div className="font-bold text-2xl text-center self-center center mr-4">공통 질문</div>
-          <Button basic onClick={() => setShowCommonQuestions((prev) => !prev)}>
-            {showCommonQuestions ? '숨기기' : '보이기'}
-          </Button>
+      <div className="flex flex-row">
+        <div className="w-1/2">
+          {commonQuestions?.part && questionTypes?.length !== 0 && (
+            <Container as={Segment}>
+              <div className="flex flex-row items-center mb-6">
+                <div className="font-bold text-2xl text-center self-center center mr-4">공통 질문</div>
+                {/* <Button basic onClick={() => setShowCommonQuestions((prev) => !prev)}>
+              {showCommonQuestions ? '숨기기' : '보이기'}
+            </Button> */}
+              </div>
+              {questionsComponent('공통', commonQuestions?.questions)}
+              <Button
+                onClick={() =>
+                  handleAddQuestion('공통', CURRENT_SEASON, group, 1, commonQuestions?.questions?.length + 1)
+                }>
+                질문 추가
+              </Button>
+            </Container>
+          )}
         </div>
-        {showCommonQuestions && questionsComponent(commonQuestions?.part, commonQuestions?.questions)}
-        {showCommonQuestions && (
-          <Button onClick={() => handleAddQuestion('공통', SEASON, group, 1, commonQuestions?.questions?.length + 1)}>
-            질문 추가
-          </Button>
-        )}
-      </Container>
-      <Container className="mt-4">
-        <div className="font-bold text-2xl mb-4">파트 별 질문</div>
-        <Tab panes={panes} />
-      </Container>
+        <div className="w-1/2 ml-6">
+          {panes?.length !== 0 && (
+            <Container as={Segment}>
+              <div className="font-bold text-2xl mb-4">파트 별 질문</div>
+              <Tab panes={panes} />
+            </Container>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

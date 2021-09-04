@@ -26,10 +26,15 @@ import numeral from 'numeral';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
 
-import { useLocation, useRouteMatch, useHistory, useParams } from 'react-router-dom';
+import {
+  useLocation,
+  useRouteMatch,
+  useHistory,
+  useParams,
+} from 'react-router-dom';
 import ApplyFormComponent from 'src/components/apply/ApplyFormComponent';
 
-const ApplyMainContainer = (props) => {
+const ApplyMainContainer = ({ type }) => {
   const [loading, setLoading] = useState(true);
 
   const { search } = useLocation();
@@ -39,7 +44,7 @@ const ApplyMainContainer = (props) => {
 
   return (
     <div>
-      <ApplyFormComponent />
+      <ApplyFormComponent type={type} />
     </div>
   );
 };

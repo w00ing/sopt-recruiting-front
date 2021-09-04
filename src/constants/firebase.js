@@ -21,5 +21,4 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const storage = firebase.storage();
 
-// Social Login
-export const googleAuthProvider = firebase.auth.GoogleAuthProvider;
+export const { STATE_CHANGED } = firebase.storage.TaskEvent;

@@ -26,7 +26,6 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log('user', user);
       if (!user) {
         dispatch(logOut());
         setAuthStateChecked(true);
@@ -39,12 +38,9 @@ function App() {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    console.log(window.location.pathname);
-  }, [window.location.pathname]);
-  console.log(loggedInUser);
+  useEffect(() => {}, [window.location.pathname]);
 
-  if (!authStateChecked) return <Loader active />;
+  if (!authStateChecked) return <LoadingComponent />;
 
   // if (!isLoggedIn) return <LoginComponent />;
 

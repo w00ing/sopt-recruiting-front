@@ -28,7 +28,7 @@ const onError = (e, url, method, data) => {
   if (e.response) {
     devMode && console.log(`[${method.toUpperCase()}] [RESPONSE] ${url} ${e.response.status}`, e.response.data);
 
-    if (e.response?.data?.userMessage) {
+    if (e.response?.data?.userMessage && !devMode) {
       errorMessage = e.response.data.userMessage;
     }
   } else {

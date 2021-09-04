@@ -35,7 +35,6 @@ const ApplyMainContainer = (props) => {
   const { search } = useLocation();
 
   const qs = queryString.parse(search);
-  console.log(qs);
 
   return (
     <div>

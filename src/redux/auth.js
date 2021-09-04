@@ -18,7 +18,6 @@ const initialAuthState = {
 export const getUserInfoInitial = createAsyncThunk(
   'auth/getUserInfoInitial',
   async ({ idFirebase }, { dispatch, getState }) => {
-    console.log('GET USER INFO INITIAL', idFirebase);
     const userRes = await RecruitingAdminAPI.recruitingAdminGET(idFirebase);
     if (!userRes.err) {
       return {

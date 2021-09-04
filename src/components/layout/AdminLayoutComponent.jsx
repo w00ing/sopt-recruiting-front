@@ -17,6 +17,16 @@ const LayoutComponent = (props) => {
         { text: 'YB', path: '/admin/questions/yb' },
       ],
     },
+    {
+      type: 'SUBMENU',
+      text: '지원서 확인',
+      open: true,
+      hasSubMenus: true,
+      subMenus: [
+        { text: 'OB', path: '/admin/applicants/ob' },
+        { text: 'YB', path: '/admin/applicants/yb' },
+      ],
+    },
   ];
 
   const [loading, setLoading] = useState(false);

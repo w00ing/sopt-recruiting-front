@@ -5,5 +5,14 @@ import LoginComponent from 'src/components/auth/LoginComponent';
 export const SoptRecruitingRouter = [
   { path: '/', component: HomeContainer },
   { path: '/admin/login', component: LoginComponent },
-  { path: '/recruiting/apply', component: ApplyMainContainer },
+  {
+    path: '/recruiting/apply/ob',
+    component: ApplyMainContainer,
+    extraProps: { type: 'ob' },
+  },
+  {
+    path: '/recruiting/apply/yb',
+    component: ApplyMainContainer,
+    extraProps: { type: 'yb' },
+  },
 ];

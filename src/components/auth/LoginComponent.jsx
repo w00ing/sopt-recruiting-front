@@ -28,11 +28,18 @@ const LoginComponent = (props) => {
       .then(async ({ user }) => {
         const res = await AuthAPI.authLoginEmailPOST(email, user.uid);
         if (!res.err) {
-          console.log(res);
           dispatch(setUser(res.user));
           dispatch(logIn());
-          Cookies.set('accesstoken', res.accesstoken, { path: '/', expires: 86400 * 30 * 2 });
-          Cookies.set('idfirebase', res.user.idFirebase, { path: '/', expires: 86400 * 30 * 2 });
+          Cookies.set('accesstoken', res.accesstoken, {
+            path: '/',
+            expires: 60,
+          });
+          Cookies.set('idfirebase', res.user.idFirebase, {
+            path: '/',
+            expires: 60,
+          });
+        } else {
+          alert('이메일 또는 비번을 확인해주세요.');
         }
         setLoading(false);
       })
@@ -42,7 +49,7 @@ const LoginComponent = (props) => {
       });
   };
 
-  if (loading) return <Loader active />;
+  if (loading) return <LoadingComponent />;
 
   if (isLoggedIn) {
     let { from } = props.location.state || { from: { pathname: '/admin' } };
