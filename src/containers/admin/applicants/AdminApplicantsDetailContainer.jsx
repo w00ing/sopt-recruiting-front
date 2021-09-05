@@ -114,7 +114,7 @@ const AdminApplicantsDetailContainer = ({}) => {
             <List>
               <List.Item>
                 <Label>
-                  최근 활동 기수<Label.Detail>{applicant?.mostRecentSeason}</Label.Detail>
+                  최근 활동 기수<Label.Detail>{applicant?.mostRecentSeason || '없음'}</Label.Detail>
                 </Label>
               </List.Item>
               <List.Item>
@@ -132,23 +132,18 @@ const AdminApplicantsDetailContainer = ({}) => {
                   지하철역<Label.Detail>{applicant?.nearestStation}</Label.Detail>
                 </Label>
               </List.Item>
-              <List.Item>
-                <Label>
-                  학교<Label.Detail>{applicant?.college}</Label.Detail>
-                </Label>
-              </List.Item>
             </List>
           </div>
           <div className="w-1/2">
             <List>
               <List.Item>
                 <Label>
-                  학과<Label.Detail>{applicant?.major}</Label.Detail>
+                  학교<Label.Detail>{applicant?.college}</Label.Detail>
                 </Label>
               </List.Item>
               <List.Item>
                 <Label>
-                  생년월일<Label.Detail>{applicant?.birthday}</Label.Detail>
+                  학과<Label.Detail>{applicant?.major}</Label.Detail>
                 </Label>
               </List.Item>
               <List.Item>

@@ -51,6 +51,8 @@ const AdminApplicantsContainer = ({ type }) => {
 
   const [partFilterOptions, setPartFilterOptions] = useState([]);
 
+  console.log(nameSearchKeyword);
+
   useEffect(() => {
     load();
   }, [perPage, activePage]);
@@ -78,7 +80,8 @@ const AdminApplicantsContainer = ({ type }) => {
     setRefreshing(false);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e && e.preventDefault();
     setLoading(true);
     await load();
     // setRefreshing(false);
@@ -124,6 +127,7 @@ const AdminApplicantsContainer = ({ type }) => {
             onChange={(e, { value }) => setNameSearchKeyword(value)}
             value={nameSearchKeyword}
             style={{ marginRight: 24 }}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch(e)}
           />
           {/* <Dropdown
             selection

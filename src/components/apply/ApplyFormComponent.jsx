@@ -262,7 +262,7 @@ const ApplyFormComponent = ({ type }) => {
               <TextareaAutosize
                 minRows={4}
                 maxLength={o.charLimit}
-                className="w-full leading-relaxed text-on-surface py-2 px-3 rounded-lg border border-primary-default mt-1 focus:outline-none bg-surface-light focus:ring-1 focus:ring-primary-dark focus:border-transparent text-base"
+                className="w-full leading-relaxed text-on-surface py-2 px-3 rounded-lg border border-primary-default mt-1 focus:outline-none bg-surface-light focus:ring-1 text-base"
                 onChange={({ target: { value } }) =>
                   setCommonAnswers((prev) =>
                     prev.map((p) => (p.recruitingQuestionId === o.id ? { ...p, answer: value } : p)),
@@ -292,7 +292,7 @@ const ApplyFormComponent = ({ type }) => {
               <TextareaAutosize
                 minRows={4}
                 maxLength={o.charLimit}
-                className="w-full leading-relaxed text-on-surface py-2 px-3 rounded-lg border border-primary-default mt-1 focus:outline-none bg-surface-light focus:ring-1 focus:ring-primary-dark focus:border-transparent"
+                className="w-full leading-relaxed text-on-surface py-2 px-3 rounded-lg border border-primary-default mt-1 focus:outline-none bg-surface-light focus:ring-1 text-base"
                 onChange={({ target: { value } }) =>
                   setPartAnswers((prev) =>
                     prev.map((p) => (p.recruitingQuestionId === o.id ? { ...p, answer: value } : p)),

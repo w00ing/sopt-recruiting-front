@@ -11,9 +11,11 @@ class RecruitingApplicantAPI {
     return publicAPI.get(url, { season, group, name, phone });
   }
 
-  static recruitingApplicantListGET(season, group, offset, limit) {
+  static recruitingApplicantListGET(season, group, offset, limit, nameSearchKeyword) {
     const url = '/recruiting-applicant/list';
-    return privateAPI.get(url, { season, group, offset, limit });
+    // const nameSearchKeyword = encodeURIComponent(keyword);
+    // console.log('encoded', nameSearchKeyword);
+    return privateAPI.get(url, { season, group, offset, limit, nameSearchKeyword });
   }
 }
 
