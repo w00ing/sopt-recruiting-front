@@ -181,7 +181,7 @@ const AdminApplicantsDetailContainer = ({}) => {
                 </Message.Header>
               </Message>
 
-              <p>{cq.answer?.answer}</p>
+              <p className="whitespace-pre-wrap">{cq.answer?.answer}</p>
               <div className="float-right">
                 ({cq.answer?.answer?.length || 0} / {cq.charLimit})
               </div>
@@ -206,7 +206,7 @@ const AdminApplicantsDetailContainer = ({}) => {
                 </Message.Header>
               </Message>
 
-              <p>{pq.answer?.answer}</p>
+              <p className="whitespace-pre-wrap">{pq.answer?.answer}</p>
               <div className="float-right">
                 ({pq.answer?.answer?.length || 0} / {pq.charLimit})
               </div>

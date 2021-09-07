@@ -315,7 +315,9 @@ const ApplyFormComponent = ({ type }) => {
       <div className="grid bg-surface-light w-11/12 md:w-9/12 lg:w-1/2">
         <div className="flex flex-col justify-center px-4 my-4">
           <div className="flex justify-center">
-            <img alt="logo" src={logo} className="h-12 mb-8" />
+            <a href="http://sopt.org/wp">
+              <img alt="logo" src={logo} className="h-12 mb-8" />
+            </a>
           </div>
           <div className="text-lg justify-center leading-loose mt-4 lg:text-center">
             <h1 className="text-2xl text-center lg:text-4xl my-2">대학생 연합 IT 창업 동아리 SOPT</h1>

@@ -6,16 +6,19 @@ class RecruitingApplicantAPI {
     return privateAPI.get(url, { recruitingApplicantId });
   }
 
+  static recruitingApplicantPartsGET() {
+    const url = '/recruiting-applicant/parts';
+    return privateAPI.get(url, {});
+  }
+
   static recruitingApplicantApplyConfirmGET(season, group, name, phone) {
     const url = '/recruiting-applicant/apply-confirm';
     return publicAPI.get(url, { season, group, name, phone });
   }
 
-  static recruitingApplicantListGET(season, group, offset, limit, nameSearchKeyword) {
+  static recruitingApplicantListGET(season, group, offset, limit, nameSearchKeyword, part) {
     const url = '/recruiting-applicant/list';
-    // const nameSearchKeyword = encodeURIComponent(keyword);
-    // console.log('encoded', nameSearchKeyword);
-    return privateAPI.get(url, { season, group, offset, limit, nameSearchKeyword });
+    return privateAPI.get(url, { season, group, offset, limit, nameSearchKeyword, part });
   }
 }
 
